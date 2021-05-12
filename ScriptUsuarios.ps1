@@ -3,6 +3,9 @@ $csv = Import-Csv $path;
 $length = ($csv).count
 $percent = 0;
 
+[string]$Contents = (Get-Content "options.json")
+$Options = (ConvertFrom-Json $Contents)
+
 if (!(Get-Module ActiveDirectory)) {
     Import-Module ActiveDirectory
 }
@@ -14,13 +17,13 @@ $csv | ForEach-Object {
     $AddUserArguments = @{
         Name = $_.Nome + $_.Apelido1 + $_.Apelido2
         SamAccountName = $username
-        UserPrincipalName = $username + "@iesbernal.gal"
+        UserPrincipalName = $username + "@$($Options.domain).$($Options.tld)"
         GivenName = $_.Nome
         Surname = $_.Apelido1 + $_.Apelido2
         Enabled = $True
         DisplayName = $_.Apelido1 + $_.Apelido2 + "," + $_.Nome
-        Path = "OU=$($_.Curso),OU=$($_.Ciclo),OU=Alumnado,OU=Usuarios,OU=IESBERNAL,DC=iesbernal,DC=gal"
-        EmailAddress = $username + "@iesbernal.gal"
+        Path = "OU=$($_.Curso),OU=$($_.Ciclo),$($Options.adpath)DC=$($Options.domain),DC=$($Options.tld)"
+        EmailAddress = $username + "@$($Options.domain).$($Options.tld)"
         AccountPassword = (ConvertTo-SecureString -AsPlainText -Force $pass)
         Description = "Alumno de $($_.Curso)"
         HomeDirectory = "\\DC1\DATOS\ALUM\$($_.Ciclo)\$($_.Curso)"

@@ -1,10 +1,24 @@
 # PS-AD-MassEnroll
 Powershell script that automatically adds new users to active directory domain from a csv file
 
-# Not very dynamic
+# Still not very dynamic
 
 Once run it will ask for the path to the csv file to use.
-As it is right now the file will need the same rows i have and, if you wish to use it, make sure to change the domain in the code from mine to yours :)
+With this new update some settings can be easily changed from the options.json file without touching the code. Options are:
+
+### domain
+
+> De domain we're creating the users in
+
+### tld
+
+> Top level domain in which the domain is in. example.**com**
+
+### adpath
+
+> Path to create the users in, it will still create OUs inside of it for each class and course.
+
+As it is right now the file will need the same rows i have.
 
 ## School work
 
